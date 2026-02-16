@@ -27,6 +27,9 @@ public class Piece : MonoBehaviour
         x = x_;
         y = y_;
         board = board_;
+
+        transform.localScale = Vector3.one * 0.35f;
+        transform.DOScale(Vector3.one, 0.35f);
     }
 
 
@@ -37,6 +40,24 @@ public class Piece : MonoBehaviour
             x = desX;
             y = desY;
         };
+    }
+
+    public void Remove(bool animated)
+    {
+        if (animated)
+        {
+            transform.DOScale(Vector3.one * 1.2f, 0.085f).onComplete = () =>
+            {
+                transform.DOScale(Vector3.zero, 0.1f).onComplete = () =>
+                {
+                    Destroy(gameObject);
+                };
+            };
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     [ContextMenu("Move Test")]
